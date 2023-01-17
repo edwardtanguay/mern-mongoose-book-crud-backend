@@ -11,5 +11,5 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.listen(config.port, () => {
-	console.log(`listening on port http://localhost:${config.port}`);
+	console.log(`${config.appName} is listening on port http://localhost:${config.port}`);
 });

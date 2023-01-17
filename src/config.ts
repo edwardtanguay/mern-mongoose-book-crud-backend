@@ -1,1 +1,7 @@
-export const port = 3610;
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+export const port = process.env.PORT;
+
+export const appName = 'Book Site API';
