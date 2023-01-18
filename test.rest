@@ -37,3 +37,25 @@ content-type: application/json
 
 ### DELETE BOOK
 DELETE {{url}}/book/63c858db629fc2975e9ab3c2
+
+### BAD LOGIN 
+POST {{url}}/login
+content-type: application/json
+
+{
+	"password": "badpassword"
+}
+
+### GOOD LOGIN
+POST {{url}}/login
+content-type: application/json
+
+{
+	"password": "123"
+}
+
+### GET CURRENT USER
+GET {{url}}/get-current-user
+
+### LOGOUT
+GET {{url}}/logout

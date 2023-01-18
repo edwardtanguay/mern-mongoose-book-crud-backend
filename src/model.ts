@@ -4,7 +4,7 @@ import * as config from './config.js';
 import { IBook, INewBook } from './interfaces.js';
 
 mongoose.set('strictQuery', false);
-mongoose.connect(config.mongoDbConnection);
+mongoose.connect(config.MONGODB_CONNECTION);
 
 const decorateAndSanitizeBook = (docBook: any) => {
 	const book: IBook = {

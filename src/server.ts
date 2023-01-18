@@ -2,11 +2,40 @@ import * as model from './model.js';
 import express from 'express';
 import cors from 'cors';
 import * as config from './config.js';
-import { IBook, INewBook } from './interfaces.js';
+import { INewBook } from './interfaces.js';
+import session from 'express-session';
+import cookieParser from 'cookie-parser';
+
+declare module 'express-session' {
+	export interface SessionData {
+		user: { [key: string]: any };
+	}
+}
 
 const app = express();
-app.use(cors());
+app.use(cors({
+	origin: 'http://localhost:5173',
+	methods: ['POST', 'GET', 'DELETE', 'PUT'],
+	credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
+
+app.use(
+	session({
+		resave: true,
+		saveUninitialized: true,
+		secret: config.SESSION_SECRET,
+		cookie: {
+			httpOnly: true,
+			sameSite: 'lax',
+			secure: false
+		}
+	})
+);
+
+
+// PUBLIC ROUTES
 
 app.get('/', (req: express.Request, res: express.Response) => {
 	res.send(model.getApiInstructions());
@@ -23,13 +52,35 @@ app.get('/book/:id', async (req, res) => {
     res.status(200).json(book);
 });
 
-app.post('/book', async (req, res) => {
+app.post('/login', (req: express.Request, res: express.Response) => {
+	const { password } = req.body;
+	if (password === config.ADMIN_PASSWORD) {
+		req.session.user = 'admin' as any;
+		req.session.cookie.expires = new Date(Date.now() + config.SECONDS_TILL_SESSION_TIMEOUT * 1000);
+		req.session.save();
+		res.status(200).send('ok');
+	} else {
+		res.status(401).send({});
+	}
+});
+
+// PROTECTED ROUTES
+
+const authorizeUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+	if (req.session.user === 'admin' as any) {
+		next();
+	} else {
+		res.status(401).send({});
+	}
+}
+
+app.post('/book', authorizeUser, async (req, res) => {
 	const book: INewBook = req.body;
 	const result = await model.addBook(book);
     res.status(200).send(result);
 });
 
-app.put('/book/:id', async (req, res) => {
+app.put('/book/:id', authorizeUser, async (req, res) => {
     const _id = req.params.id;
 	const book: INewBook = req.body;
 	const result = await model.replaceBook(_id, book);
@@ -39,13 +90,13 @@ app.put('/book/:id', async (req, res) => {
     });
 });
 
-app.delete('/book/:id', async (req, res) => {
+app.delete('/book/:id', authorizeUser, async (req, res) => {
     const _id = req.params.id;
 	const result = await model.deleteBook(_id);
     res.status(200).json(result);
 });
 
 
-app.listen(config.port, () => {
-	console.log(`${config.appName} is listening on port http://localhost:${config.port}`);
+app.listen(config.PORT, () => {
+	console.log(`${config.APP_NAME} is listening on port http://localhost:${config.PORT}`);
 });
