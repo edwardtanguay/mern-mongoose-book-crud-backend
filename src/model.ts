@@ -6,15 +6,14 @@ mongoose.set('strictQuery', false);
 mongoose.connect(config.mongoDbConnection);
 
 export const getBooks = async () => {
-    const rawBooks = await Book.find();
+	const rawBooks = await Book.find();
 	const books = [];
 	rawBooks.forEach(rawBook => {
 		const book = {
-			title: rawBook.title,
-			description: rawBook.description,
-			imageUrl: rawBook.imageUrl,
+			...rawBook.toObject(),
 			languageText: rawBook.language.charAt(0).toUpperCase() + rawBook.language.slice(1)
-		}
+		};
+		console.log(book);
 		books.push(book);
 	})
 	return books;
