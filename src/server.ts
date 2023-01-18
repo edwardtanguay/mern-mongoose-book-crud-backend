@@ -11,8 +11,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.get('/books', async (req, res) => {
-	const books = model.getBooks();
-    // const books = await Book.find();
+	const books = await model.getBooks();
     res.status(200).json(books);
 });
 

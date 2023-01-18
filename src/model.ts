@@ -1,10 +1,16 @@
+import mongoose from 'mongoose';
+import { Book } from './models/Book.js';
+import dotenv from 'dotenv';
 
-export const getBooks = () => {
-	return [
-		{
-			title: 'title 111'
-		}
-	];
+dotenv.config();
+
+const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION ?? 'mongodb://localhost/bookapi';
+mongoose.set('strictQuery', false);
+mongoose.connect(MONGODB_CONNECTION);
+
+export const getBooks = async () => {
+    const books = await Book.find();
+	return books;
 }
 
 export const getApiInstructions = () => {
