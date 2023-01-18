@@ -11,12 +11,9 @@ app.get('/', (req: express.Request, res: express.Response) => {
 });
 
 app.get('/books', async (req, res) => {
+	const books = model.getBooks();
     // const books = await Book.find();
-    // res.status(200).json({
-    //     message: 'fetched all books',
-    //     books
-    // });
-	res.send('test');
+    res.status(200).json(books);
 });
 
 app.listen(config.port, () => {

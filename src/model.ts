@@ -1,3 +1,12 @@
+
+export const getBooks = () => {
+	return [
+		{
+			title: 'title 111'
+		}
+	];
+}
+
 export const getApiInstructions = () => {
 	return `
 <style>
