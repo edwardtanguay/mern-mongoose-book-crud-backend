@@ -1,12 +1,9 @@
 import mongoose from 'mongoose';
 import { Book } from './models/Book.js';
-import dotenv from 'dotenv';
+import * as config from './config.js';
 
-dotenv.config();
-
-const MONGODB_CONNECTION = process.env.MONGODB_CONNECTION ?? 'mongodb://localhost/bookapi';
 mongoose.set('strictQuery', false);
-mongoose.connect(MONGODB_CONNECTION);
+mongoose.connect(config.mongoDbConnection);
 
 export const getBooks = async () => {
     const books = await Book.find();
