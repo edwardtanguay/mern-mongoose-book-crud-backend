@@ -64,6 +64,14 @@ app.post('/login', (req: express.Request, res: express.Response) => {
 	}
 });
 
+app.get('/get-current-user', (req: express.Request, res: express.Response) => {
+	if (req.session.user) {
+		res.send(req.session.user);
+	} else {
+		res.send('anonymousUser');
+	}
+});
+
 // PROTECTED ROUTES
 
 const authorizeUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -96,6 +104,15 @@ app.delete('/book/:id', authorizeUser, async (req, res) => {
     res.status(200).json(result);
 });
 
+app.get('/logout', authorizeUser, (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+			res.send('ERROR');
+		} else {
+			res.send('logged out');
+		}
+	});
+});
 
 app.listen(config.PORT, () => {
 	console.log(`${config.APP_NAME} is listening on port http://localhost:${config.PORT}`);
