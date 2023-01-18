@@ -16,21 +16,27 @@ export interface IBook {
 	buyUrl: string
 }
 
+const decorateAndSanitizeBook = (rawBook: any) => {
+	const book: IBook = {
+		...rawBook.toObject({versionKey: false}),
+		languageText: rawBook.language.charAt(0).toUpperCase() + rawBook.language.slice(1)
+	};
+	return book
+}
+
 export const getBooks = async () => {
 	const rawBooks = await Book.find();
-	const books:IBook[] = [];
+	const books: IBook[] = [];
 	rawBooks.forEach(rawBook => {
-		const book:IBook = {
-			...rawBook.toObject(),
-			languageText: rawBook.language.charAt(0).toUpperCase() + rawBook.language.slice(1)
-		};
-		books.push(book);
+		books.push(decorateAndSanitizeBook(rawBook));
 	})
 	return books;
 }
 
-export const getBook = async (id: number) => {
-	const book = await Book.find({ _id: id });
+export const getBook = async (_id: string) => {
+	const rawBook = await Book.findOne({ _id});
+	const book = decorateAndSanitizeBook(rawBook);
+	return book;
 }
 
 export const getApiInstructions = () => {

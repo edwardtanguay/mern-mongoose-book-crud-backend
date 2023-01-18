@@ -5,3 +5,6 @@ GET {{url}}
 
 ### ALL BOOKS
 GET {{url}}/books
+
+### SPECIFIC BOOK
+GET {{url}}/book/62c3fca5997884b0fdda415a
