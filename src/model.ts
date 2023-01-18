@@ -1,42 +1,43 @@
 import mongoose from 'mongoose';
 import { Book } from './models/Book.js';
 import * as config from './config.js';
+import { IBook, INewBook } from './interfaces.js';
 
 mongoose.set('strictQuery', false);
 mongoose.connect(config.mongoDbConnection);
 
-export interface IBook {
-	_id: string,
-	title: string,
-	description: string,
-	numberOfPages: number,
-	language: string,
-	languageText: string,
-	imageUrl: string,
-	buyUrl: string
-}
-
-const decorateAndSanitizeBook = (rawBook: any) => {
+const decorateAndSanitizeBook = (docBook: any) => {
 	const book: IBook = {
-		...rawBook.toObject({versionKey: false}),
-		languageText: rawBook.language.charAt(0).toUpperCase() + rawBook.language.slice(1)
+		...docBook.toObject({ versionKey: false }),
+		languageText: docBook.language.charAt(0).toUpperCase() + docBook.language.slice(1)
 	};
-	return book
+	return book;
 }
 
 export const getBooks = async () => {
-	const rawBooks = await Book.find();
+	const docBooks = await Book.find();
 	const books: IBook[] = [];
-	rawBooks.forEach(rawBook => {
-		books.push(decorateAndSanitizeBook(rawBook));
+	docBooks.forEach(docBook => {
+		books.push(decorateAndSanitizeBook(docBook));
 	})
 	return books;
 }
 
 export const getBook = async (_id: string) => {
-	const rawBook = await Book.findOne({ _id});
+	const rawBook = await Book.findOne({ _id });
 	const book = decorateAndSanitizeBook(rawBook);
 	return book;
+}
+
+export const addBook = async (book: INewBook) => {
+	return new Promise((resolve, reject) => {
+		const docBook = new Book(book);
+		const result = docBook.save((err, docBook) => {
+			if (!err) {
+				resolve(docBook.toObject({ versionKey: false }));
+			}
+		});
+	});
 }
 
 export const getApiInstructions = () => {
