@@ -5,18 +5,32 @@ import * as config from './config.js';
 mongoose.set('strictQuery', false);
 mongoose.connect(config.mongoDbConnection);
 
+export interface IBook {
+	_id: string,
+	title: string,
+	description: string,
+	numberOfPages: number,
+	language: string,
+	languageText: string,
+	imageUrl: string,
+	buyUrl: string
+}
+
 export const getBooks = async () => {
 	const rawBooks = await Book.find();
-	const books = [];
+	const books:IBook[] = [];
 	rawBooks.forEach(rawBook => {
-		const book = {
+		const book:IBook = {
 			...rawBook.toObject(),
 			languageText: rawBook.language.charAt(0).toUpperCase() + rawBook.language.slice(1)
 		};
-		console.log(book);
 		books.push(book);
 	})
 	return books;
+}
+
+export const getBook = async (id: number) => {
+	const book = await Book.find({ _id: id });
 }
 
 export const getApiInstructions = () => {

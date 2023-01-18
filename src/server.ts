@@ -15,6 +15,16 @@ app.get('/books', async (req, res) => {
     res.status(200).json(books);
 });
 
+app.get('/book/:id', async (req, res) => {
+    const id = req.params.id;
+	const book = await model.getBooks(id);
+    res.status(200).json({
+        message: 'fetched book with id ' + id,
+        book
+    });
+});
+
+
 app.listen(config.port, () => {
 	console.log(`${config.appName} is listening on port http://localhost:${config.port}`);
 });
