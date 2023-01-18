@@ -37,6 +37,13 @@ export const addBook = async (book: INewBook) => {
 	});
 }
 
+export const replaceBook = async (_id: string, changedBook: INewBook) => {
+	const oldBook = await Book.find({ _id});
+    await Book.updateOne({ _id }, {$set: {...changedBook}});
+	const newBook = await Book.find({ _id });
+	return {oldBook, newBook};
+}
+
 export const getApiInstructions = () => {
 	return `
 <style>

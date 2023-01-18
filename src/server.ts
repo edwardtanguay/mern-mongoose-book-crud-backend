@@ -2,7 +2,7 @@ import * as model from './model.js';
 import express from 'express';
 import cors from 'cors';
 import * as config from './config.js';
-import { INewBook } from './interfaces.js';
+import { IBook, INewBook } from './interfaces.js';
 
 const app = express();
 app.use(cors());
@@ -27,6 +27,16 @@ app.post('/book', async (req, res) => {
 	const book: INewBook = req.body;
 	const result = await model.addBook(book);
     res.status(200).send(result);
+});
+
+app.put('/book/:id', async (req, res) => {
+    const id = req.params.id;
+	const book: INewBook = req.body;
+	const result = await model.replaceBook(id, book);
+    res.status(200).json({
+		oldBook: result.oldBook,
+		result: result.newBook
+    });
 });
 
 
