@@ -30,13 +30,19 @@ app.post('/book', async (req, res) => {
 });
 
 app.put('/book/:id', async (req, res) => {
-    const id = req.params.id;
+    const _id = req.params.id;
 	const book: INewBook = req.body;
-	const result = await model.replaceBook(id, book);
+	const result = await model.replaceBook(_id, book);
     res.status(200).json({
 		oldBook: result.oldBook,
 		result: result.newBook
     });
+});
+
+app.delete('/book/:id', async (req, res) => {
+    const _id = req.params.id;
+	const result = await model.deleteBook(_id);
+    res.status(200).json(result);
 });
 
 

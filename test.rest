@@ -34,3 +34,6 @@ content-type: application/json
   "imageUrl": "http://edwardtanguay.vercel.app/share/images/books/homodeus.png",
   "buyUrl": "https://www.amazon.com/Homo-Deus-Brief-History-Tomorrow-ebook/dp/B019CGXTP0"
 }
+
+### DELETE BOOK
+DELETE {{url}}/book/63c858db629fc2975e9ab3c2

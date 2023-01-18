@@ -44,6 +44,11 @@ export const replaceBook = async (_id: string, changedBook: INewBook) => {
 	return {oldBook, newBook};
 }
 
+export const deleteBook = async (_id: string) => {
+	const result = await Book.deleteOne({ _id });
+	return result;
+}
+
 export const getApiInstructions = () => {
 	return `
 <style>
