@@ -55,16 +55,41 @@ export const getApiInstructions = () => {
 	body {
 		background-color: #444;
 		padding: 1rem;
-		color: #fff;
-		font-family: courier;
+		color: #bbb;
+		font-family: sans-serif;
 	}
 	code {
 		background-color: #333;
 	}
+	li {
+		margin-bottom: .3rem;
+	}
+	a {
+		color: yellow;
+		font-family: courier;
+		background-color: #222;
+	}
+	span {
+		color: #fff;
+		font-family: courier;
+		background-color: #222;
+	}
 </style>
-<h1>Book Site API</h1>
+<h1>${config.APP_NAME}</h1>
+
+<h2>Public routes</h2>
 <ul>
-	<li>nnn</li>
+	<li>GET <a href="books">/books</a> - get all books</li>
+	<li>GET <span>/books/id</span> - get specific book</li>
+	<li>GET <span>/login</span> - login with password</li>
+	<li>GET <span>/get-current-user</span> - get the username that is currently logged in</li>
+</ul>
+<h2>Protected routes</h2>
+<ul>
+	<li>POST <span>/book</span> - add a book</li>
+	<li>PUT <span>/book/id</span> - replace a book</li>
+	<li>DELETE <span>/book/id</span> - delete a book</li>
+	<li>GET <span>/logout</span> - log current user out</li>
 </ul>
 	`;
 }
