@@ -14,7 +14,7 @@ POST {{url}}/book
 content-type: application/json
 
 {
-  "title": "Added Book2",
+  "title": "Added Book4",
   "description": "lorem ipsum dolor sit amet, consectetur, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet",
   "numberOfPages": 999,
   "language": "english",

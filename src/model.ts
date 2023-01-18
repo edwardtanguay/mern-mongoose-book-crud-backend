@@ -30,13 +30,10 @@ export const getBook = async (_id: string) => {
 }
 
 export const addBook = async (book: INewBook) => {
-	return new Promise((resolve, reject) => {
+	return new Promise(async (resolve, reject) => {
 		const docBook = new Book(book);
-		const result = docBook.save((err, docBook) => {
-			if (!err) {
-				resolve(docBook.toObject({ versionKey: false }));
-			}
-		});
+		const addedDocBook = await docBook.save();
+		resolve(addedDocBook.toObject({ versionKey: false }));
 	});
 }
 
