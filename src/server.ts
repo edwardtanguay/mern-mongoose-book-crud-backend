@@ -71,6 +71,17 @@ app.get('/get-current-user', (req: express.Request, res: express.Response) => {
 	}
 });
 
+app.get('/logout', (req, res) => {
+	req.session.destroy((err) => {
+		if (err) {
+			res.send('ERROR');
+		} else {
+			res.send('logged out');
+		}
+	});
+});
+
+
 // PROTECTED ROUTES
 
 const authorizeUser = (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -101,16 +112,6 @@ app.delete('/book/:id', authorizeUser, async (req, res) => {
     const _id = req.params.id;
 	const result = await model.deleteBook(_id);
     res.status(200).json(result);
-});
-
-app.get('/logout', authorizeUser, (req, res) => {
-	req.session.destroy((err) => {
-		if (err) {
-			res.send('ERROR');
-		} else {
-			res.send('logged out');
-		}
-	});
 });
 
 app.listen(config.PORT, () => {

@@ -83,13 +83,13 @@ export const getApiInstructions = () => {
 	<li>GET <span>/books/id</span> - get specific book</li>
 	<li>GET <span>/login</span> - login with password</li>
 	<li>GET <span>/get-current-user</span> - get the username that is currently logged in</li>
+	<li>GET <span>/logout</span> - log current user out</li>
 </ul>
 <h2>Protected routes</h2>
 <ul>
 	<li>POST <span>/book</span> - add a book</li>
 	<li>PUT <span>/book/id</span> - replace a book</li>
 	<li>DELETE <span>/book/id</span> - delete a book</li>
-	<li>GET <span>/logout</span> - log current user out</li>
 </ul>
 	`;
 }
