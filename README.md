@@ -11,6 +11,13 @@ This is the backend to a two-repository project that allows a user to view books
 - delete the repository: `rm -rf .git`
 - create a new repository: `git init -b main`
 - install node modules: `npm i`
+- open project in editor e.g. `code .` (Visual Studio Code)
+
+## create database
+
+- create MongoDB database at your MongoDB Atlas called `bookapi`
+- create a collection in it called `books`
+- import the file `dev/books.json` into the collection `books`
 
 ## create .env file
 
@@ -32,12 +39,6 @@ SESSION_SECRET = RANDOMSTRING
 ADMIN_PASSWORD = ADMINPASSWORD
 FRONTEND_URL = http://localhost:5002
 ```
-
-## create database
-
-- create MongoDB database at your MongoDB Atlas called `bookapi`
-- create a collection in it called `books`
-- import the file `dev/books.json` into the collection `books`
 
 ## start the project
 
