@@ -1,4 +1,4 @@
-@url = http://localhost:3610
+@url = http://localhost:5001
 
 ### GET INFO
 GET {{url}}

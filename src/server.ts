@@ -14,7 +14,7 @@ declare module 'express-session' {
 
 const app = express();
 app.use(cors({
-	origin: 'http://localhost:5173',
+	origin:config.FRONTEND_URL,
 	methods: ['POST', 'GET', 'DELETE', 'PUT'],
 	credentials: true
 }));
